@@ -43,9 +43,9 @@ def scraper(username):
         for row in rows:
             cols = row.find_all('td')
             friend_name = cols[1].find('a')['href']
-            ratings_link = _domain + friend_name + "ratings/"
+            ratings_link = _domain + friend_name + "/watchlist/"
             friend_name = friend_name.split("/")[1]
-            ratings = scrape_ratings(ratings_link)
+            ratings = scrape_ratings(ratings_link, friend_name)
             if ratings is not None:
                 friends.append(Friend(friend_name, ratings))
 

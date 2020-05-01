@@ -54,20 +54,21 @@ def transform_ratings(some_str):
         return -1
 
 
-def scrape_ratings(ratings_link):
+def scrape_ratings(ratings_link, name):
     """
     takes a ratings link for a user and returns a dictionary where the key is the film title and score is the
     value
     :param ratings_link
+    :paran name
     :return ratings dictonary
 
     """
 
-    film_ratings = dict()
+    watchlist = list()
 
     while True:
 
-        ratings_page = requests.get(ratings_link)
+        ratings_page = requests.get(ratings_link, name)
 
         # check to see page was downloaded correctly
         if ratings_page.status_code != 200:
@@ -87,18 +88,18 @@ def scrape_ratings(ratings_link):
         for film in films:
             panel = film.find('div').find('img')
             film_name = panel['alt']
-            stars = transform_ratings(film.find('p', class_='poster-viewingdata').get_text().strip())
-            if stars == -1:
-                continue
-            film_ratings[film_name] = stars
+            #stars = transform_ratings(film.find('p', class_='poster-viewingdata').get_text().strip())
+            #if stars == -1:
+             #   continue
+            watchlist.append(film_name)
 
         # check if there is another page of ratings
         next_button = soup.find('a', class_='next')
         if next_button is None:
             break
         else:
-            ratings_link = _domain + next_button['href']
-    return film_ratings
+            ratings_link = _domain + next_button['href']   
+    return watchlist
 
 
 def encounter_error(custom_msg):

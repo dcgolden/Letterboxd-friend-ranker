@@ -14,6 +14,8 @@ class User:
         """
         self.username = username
         self.file_name = file_name
-        self.ratings_link = "https://letterboxd.com/" + self.username + "/films/" + "ratings/"
+        self.ratings_link = "https://letterboxd.com/" + self.username + "/watchlist/"
+        print(self.ratings_link)
         print("\nScraping main user data...\n")
-        self.films_ratings = scrape_ratings(self.ratings_link)
+        self.films_ratings = scrape_ratings(self.ratings_link, username)
+        scrape_ratings("https://letterboxd.com/yawningbabble/watchlist/", "yawningbabble")
